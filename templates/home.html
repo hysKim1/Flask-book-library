@@ -39,9 +39,9 @@
                     </div>
                     <div>            
                         <small class="text-muted">
-                          {% if book.stock == 0 %}
-                            대출불가
-                            <button type='submit' style='background-color: darkslategrey; color:white;'>대출불가</button>
+                          {% if book.in_stock == 0 %}
+                            0권
+                            <a class="btn btn-light my-2" style='background-color: grey; color:white;'>대출 불가</a>
                           {% else %}  
                           <a href="{{ url_for('rental.rent', book_id=book.id) }}" class="btn btn-light my-2" style='background-color: rgb(82, 79, 161);color:white;'>대여하기</a>
                           <p>  {{book.in_stock}}권 대출가능</p>
