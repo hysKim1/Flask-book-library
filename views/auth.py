@@ -51,10 +51,10 @@ def signup():
         val_username = re.compile('^[가-힣a-zA-Z\s]+$')
         #최소 8자의  비빌번호 최소 하나의 특수문자, 영소문자, 숫자  포함
         #개인정보 보호초지 기준 : 3가지중 최소 2개
-        val_pwd1 = re.compile('^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[~!@#$%^&*+=-]){8,}$')
-        val_pwd2 = re.compile('^[a-zA-Z0-9]{10,}$')
-        val_pwd3 = re.compile('^[a-zA-Z~!@#$%^&*]{10,}$')
-        val_pwd4 = re.compile('^[\d~!@#$%^&*]{10,}$')
+        val_pwd1 = re.compile('^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[~!@#$%^&*+=-]).{8,100}$')
+        val_pwd2 = re.compile('^[a-zA-Z0-9]{10,100}$')
+        val_pwd3 = re.compile('^[a-zA-Z~!@#$%^&*]{10,100}$')
+        val_pwd4 = re.compile('^[\d~!@#$%^&*]{10,100}$')
 
         if  val_username.match(username) is None:
             message, messageType = '이름이 유효하지 않습니다.', 'danger'
