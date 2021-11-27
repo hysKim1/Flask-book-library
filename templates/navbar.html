@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+        <meta name="generator" content="Hugo 0.88.1">
+        <title>{% block title %}{% endblock %}</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sign-in/">
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/signin.css" rel="stylesheet">
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+      .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: rgb(82, 79, 161);
+    border: rgb(82, 79, 161);
+}
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+    .navbar {
+    background-color: rgb(82, 79, 161)!important;
+    border: rgb(82, 79, 161) !important;
+    color:white !important;
+    }
+    .navbar-brand {
+    color:white !important;
+    }
+    </style>
+  </head>
+  <!-- 네비게이션바 -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom justify-content-between">
+    <a class="m-3 navbar-brand" href="{{ url_for('main.home') }}">Home</a>
+    <a class="navbar-brand d-flex align-items-center"  href="{{ url_for('main.home') }}">
+        <img src="../static/img/rabbit1.png" alt=""  height="25" class="m-2 d-inline-block align-text-top">
+        <strong><h3> 엘리스 도서관</h3></strong>
+      </a>
+      {% if session['user_id'] %}
+    
+    <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+
+        <ul class="navbar-nav">
+              <li class="nav-item ">  
+                  <a class="nav-link" href="{{url_for('rental.book_returned')}}"> 대여기록 </a>
+              </li>
+              <li class="nav-item ">  
+                <a class="nav-link" href="{{url_for('rental.book_rented')}}"> 반납하기 </a>
+            </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('auth.signout') }}">로그아웃</a>               
+              </li>
+            {% else %}
+          <ul class="navbar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link "href="{{ url_for('auth.signup') }}">회원가입</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{{ url_for('auth.signin') }}">로그인</a>
+            </li>
+            {% endif %}
+
+        </ul>
+    </div>
+</nav>

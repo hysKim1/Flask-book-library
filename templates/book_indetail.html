@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+        <div class="album py-5 bg-light">
+            <div class="container">
+              <div class="flex w-full items-center justify-between border-2 bg-white p-10 pr-40 pl-40 m-3">
+                {% if book %}
+                <table class=" table table-condensed table-bordered">
+                  <td> 
+                  <img class= 'book_img' alt="" width=80% src="../{{book.img}}" />
+                   <div class="border-2">
+                  </td>
+                  <td> 
+                  <table class="table table-hoer table-condensed table-bordered mt-5">
+
+                  <th>책이름</th>
+                  <td>{{ book.title }}</td>
+                </tr>
+                <tr>
+                  <th>출판사</th>
+                  <td>{{ book.publisher }}</td>
+                </tr>
+                <tr>
+                  <th>저자</th>
+                  <td>{{ book.author }}</td>
+                </tr>
+                <tr>
+                  <th>출간일</th>
+                  <td>{{ book.publication_date }}</td>
+                </tr>
+                <tr>
+                  <th>페이지수</th>
+                  <td>{{ book.pages }}</td>
+                </tr>
+                <tr>
+                  <th>ISBN 코드</th>
+                  <td>{{ book.isbn }}</td>
+                </tr>
+                </table>
+              </td>
+
+              </table>
+ 
+              </div>
+
+                <div class="p-10 bg-white">
+                  <h5 class="text-2xl">책 소개</h5>
+                  <div class="mt-5">
+                    <p>{{ book.description }}</p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- 댓글 -->
+
+<div class="container my-3">
+  <h2 class="border-bottom py-2"> ⭐⭐⭐⭐⭐ 리뷰</h2>
+  <h5 class="py-2"> 평점: {{ avg }}점 ( {{review_info.total}} 개) </h5>
+
+</div>
+<input type="hidden" id="so" name="so" value="{{ sel }}">
+<table class="table">
+  <tr>
+    <th> no </th>
+    <th> 내용 </th>
+    <th> /5점 </th>
+    <th> 등록 날짜 </th>
+    <th>  </th>
+  </tr>
+{% for review in review_info.items %}
+    <tr>          
+      <td>{{ review_info.total - ((review_info.page-1) * review_info.per_page) - loop.index0 }}</td>
+      <td> {{review.comment}}</td>
+      <td>  {% if review.star == 0 %}
+              {{'☆'*(5-review.star)}}
+            {% else %}
+              {{'★'*review.star}}{{'☆'*(5-review.star)}}
+          {% endif %} 
+      </td>
+      <td> {{ review.comment_date }}</td>  
+    {% if session['user_id'] == review.user_id %}
+    <td> <a class="btn btn-danger btn-sm" href="{{ url_for('book.del_review', user_id=review.user_id, book_id=review.book_id,review_id=review.id) }}">삭제</a></td>
+    {% endif %}
+  </tr>
+  {% endfor %}
+
+
+</table>
+
+</td>
+</tr>
+ 
+<!-- 페이징처리 시작 -->
+<ul class="pagination justify-content
+-center">
+  <!-- 이전페이지 -->
+  {% if review_info.has_prev %}
+  <li class="page-item">
+      <a class="page-link" href="?page={{ review_info.prev_num }}">이전</a>
+  </li>
+  {% else %}
+  <li class="page-item disabled">
+      <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+  </li>
+  {% endif %}
+  {% for page_num in review_info.iter_pages() %}
+      {% if page_num %}
+          {% if page_num != review_info.page %}
+          <li class="page-item">
+              <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+          </li>
+          {% else %}
+          <li class="page-item active" aria-current="page">
+              <a class="page-link" href="#">{{ page_num }}</a>
+          </li>
+          {% endif %}
+     {% else %}
+          <li class="disabled">
+              <a class="page-link" href="#">...</a>
+          </li>
+     {% endif %}
+  {% endfor %}
+  <!-- 다음페이지 -->
+  {% if review_info.has_next %}
+  <li class="page-item">
+      <a class="page-link" href="?page={{ review_info.next_num }}">다음</a>
+  </li>
+  {% else %}
+  <li class="page-item disabled">
+      <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+  </li>
+  {% endif %}
+</ul>
+<!-- 페이징처리 끝 -->
+
+
+
+{% if session['user_id'] %}
+<div class="comment-wrap">
+  <h3>리뷰 작성하기</h3>
+    <form method="post " action="{{url_for('book.create_review',book_id=book.id)}}">
+      <div class="container"  style="margin-bottom: 5px;">
+          <input type="radio"  name="rating" value='1' id="rate1" />
+          <label for="rate1">1</label>
+          <input type="radio"  name="rating" value='2'  id="rate2"/>
+          <label for="rate2">2</label>
+          <input type="radio"  name="rating" value='3'  id="rate3"/>
+          <label for="rate3">3</label>
+          <input type="radio"  name="rating" value='4' id="rate4"/>
+          <label for="rate4">4</label>
+          <input type="radio"  name="rating" value='5'  id="rate5" checked/>
+          <label for="rate5">5</label>
+      </div>
+      <div class="d-flex">
+        <div class="form-group">
+            <textarea name="content" id="content"  class="form-control mb-3"   rows="5" style="width:300%; margin-right:10px;"
+            placeholder="작성바랍니다" required >
+          </textarea>        
+        <div style="width: 550%">
+          <button class="btn btn-primary" type="submit"  style='background-color: rgb(82, 79, 161);color:white;'>리뷰등록</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+{%else%}
+        
+        <p>리뷰 작성을 위해서 로그인이 하시기 바랍니다</p> 
+        <a href="{{ url_for('auth.signin') }}"  class="btn btn-primary" type="submit">
+          로그인하기
+        </a>
+  
+{% endif %}
+
+  {% endif %}
+    <footer class="text-muted py-5">
+      <div class="container">
+        <p class="float-end mb-1">
+          <a href="#">맨 위로</a>
+        </p>
+      </div>
+    </footer>
+{% endblock %}
+
+    
+    
+          

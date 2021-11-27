@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}반납하기{% endblock %}
+
+{% block page_content %} 
+<style>
+  .book_img {
+    object-fit: contain;
+  }
+</style>   
+      <div class="album py-5 bg-light">     
+        <div class="container">
+    
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+            {% for book, rental_info in rented_list%}
+
+            <div class="col">
+              <div class="card shadow-sm">
+                  
+                <a href="{{ url_for('book.book_indetail', book_id=book.id) }}" class="btn btn-light my-2"><img class= 'book_img'src='../{{book.img}}' height="250" width ="100%" alt=""> 
+                <title>책</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{book.title}} </text></a>
+                <div class="card-body">
+                  <div  >
+                    <div>            
+                      <p class="text-muted">
+                        평균 평점: 
+                        {% if book.rating == 0 %}
+                          {{'☆'*(5-book.rating)}}
+                        {% else %}
+                          {{'★'*book.rating}}{{'☆'*(5-book.rating)}}
+                        {% endif %}
+                      </p>
+
+                    </div>
+                    <p class="card-text row-cols-3">{{rental_info.rental_date.strftime("%Y/%m/%d")}}~
+                      {% if rental_info.is_returned==0 %}
+                        현재</p>
+                        <div> 
+                       <a  href="{{ url_for('rental.book_return',book_id=rental_info.book_id) }}"class="btn btn-light my-2" style='background-color: rgb(82, 79, 161);color:white;'>반납하기</a>
+                      </div>
+                       {% else %}
+                      {{rental_info.return_date.strftime("%Y/%m/%d") }}</p>
+                      {% endif %}
+                    <div>            
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        </div>
+      </div>    
+    <footer class="text-muted py-5">
+      <div class="container">
+        <p class="float-end mb-1">
+          <a href="#">맨 위로</a>
+        </p>
+      </div>
+    </footer>
+{% endblock %}
