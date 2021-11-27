@@ -140,7 +140,7 @@
 {% if session['user_id'] %}
 <div class="comment-wrap">
   <h3>리뷰 작성하기</h3>
-    <form method="post " action="{{url_for('book.create_review',book_id=book.id)}}">
+    <form method="post" action="{{url_for('book.create_review',book_id=book.id)}}">
       <div class="container"  style="margin-bottom: 5px;">
           <input type="radio"  name="rating" value='1' id="rate1" />
           <label for="rate1">1</label>
