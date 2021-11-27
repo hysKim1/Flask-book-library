@@ -1,7 +1,8 @@
-from flask import Flask
+from flask import Flask,redirect
 from db_connect import db
 from flask_migrate import Migrate
 import config
+import os
 
 def create_app():
     app = Flask(__name__)
@@ -22,8 +23,12 @@ def create_app():
 
     app.secret_key = "secret"
     app.config['SESSION_TYPE'] = 'filesystem'
+    
+    @app.route('/')
+    def welcome():
+        return redirect('/home/')
 
     return app
 
 if __name__ == "__main__":
-    create_app().run(debug=True)
+    create_app().run('0.0.0.0', 5000, debug=True)
