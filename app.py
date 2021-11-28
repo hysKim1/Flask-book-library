@@ -14,18 +14,18 @@ def create_app():
     with app.app_context():
         db.create_all()
 
-    from views import main_view
-    from views import auth, book_views,rental
+    from views import main_view, auth, book_views,rental,error_handler
     app.register_blueprint(main_view.bp)
     app.register_blueprint(auth.bp)
     app.register_blueprint(book_views.bp)
     app.register_blueprint(rental.bp)
+    app.register_blueprint(error_handler.bp)
 
     app.secret_key = "secret"
     app.config['SESSION_TYPE'] = 'filesystem'
     
     @app.route('/')
-    def welcome():
+    def start():
         return redirect('/home/')
 
     return app
