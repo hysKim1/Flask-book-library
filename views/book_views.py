@@ -41,7 +41,8 @@ def create_review(book_id):
         db.session.add(review)
         db.session.commit()
         flash('리뷰 등록 완료')
-        return redirect(url_for('book.book_indetail', book_id=book_id))
+        return redirect('{}#review_redirecting1{}'.format(url_for('book.book_indetail', book_id=book_id),review.id))
+        
 
     flash('이미 작성하셨습니다.')
     return redirect(url_for('book.book_indetail',book_id=book_id))

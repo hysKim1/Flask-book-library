@@ -70,6 +70,7 @@
     <th>  </th>
   </tr>
 {% for review in review_info.items %}
+<a name='review_redirecting1{{review.id}}'></a> 
     <tr>          
       <td>{{ review_info.total - ((review_info.page-1) * review_info.per_page) - loop.index0 }}</td>
       <td> {{review.comment}}</td>
@@ -81,6 +82,8 @@
       </td>
       <td> {{ review.comment_date }}</td>  
     {% if session['user_id'] == review.user_id %}
+    <a name='review_redirecting2{{review.id}}'></a> 
+
     <td> <a class="btn btn-danger btn-sm" href="{{ url_for('book.del_review', user_id=review.user_id, book_id=review.book_id,review_id=review.id) }}">삭제</a></td>
     {% endif %}
   </tr>
