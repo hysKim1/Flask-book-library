@@ -24,9 +24,6 @@
                 <p class="card-text"{{book.author}}></p>
                 <p class="card-text"{{book.publisher}}></p>
 
-                  <p class="card-text" >{{book.description}}</p>
-                  <div class="d-flex justify-content-between align-items-center">
-
                     <div>           
                         <p class="text-muted">
                           평균 평점: 
@@ -43,13 +40,13 @@
                             0권
                             <a class="btn btn-light my-2" style='background-color: grey; color:white;'>대출 불가</a>
                           {% else %}  
-                          <a href="{{ url_for('rental.rent', book_id=book.id) }}" class="btn btn-light my-2" style='background-color: rgb(82, 79, 161);color:white;'>대여하기</a>
                           <p>  {{book.in_stock}}권 대출가능</p>
+
+                          <a href="{{ url_for('rental.rent', book_id=book.id) }}" class="btn btn-light my-2" style='background-color: rgb(82, 79, 161);color:white;'>대여하기</a>
 
                           {% endif %}
                         </small>
                     </div>
-                  </div>
                 </div>
               </div>
             </div>
