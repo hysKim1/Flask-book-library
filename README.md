@@ -2,13 +2,14 @@
 
 
 (1) 프로젝트 구성 안내
-    - 로그인
-    - 로그아웃
-    - 회원 가입
-    - 메인 페이지
-    - 책 상세 페이지
-    - 대여기록
-    - 반납 가능한 책
+
+- 로그인
+- 로그아웃
+- 회원 가입
+- 메인 페이지
+- 책 상세 페이지
+- 대여기록
+- 반납 가능한 책
 
 (2) 프로젝트 기능 설명
 
@@ -94,16 +95,20 @@
     
     - [x] 로그인한 유저가 대여 후 반납 했던 책에 대한 모든 사항을 출력합니다.
 
-(3) 기술
-    - Flask
-    - SQLAlchemy
-    - JQuery
-    - HTML + Falsk Jinja2
-    - Bootstrap
+(3) 주요 사용 기술
+- Flask
+- SQLAlchemy
+- HTML + Falsk Jinja2
+- Bootstrap
+- pymysql
 
-(4) 버전
-    - requirements.txt 확인
-(5) FAQ  
+(4) 주요 버전( requirements.txt)
+- Flask==2.0.2
+- Flask-Migrate==3.1.0
+- Flask-SQLAlchemy==2.5.1
+- Flask-Migrate==3.1.0
+- PyMySQL==1.0.2
+
 #### 11.16
 - Gitlab 세팅
 - 기본 Falsk 프로젝트 세팅
