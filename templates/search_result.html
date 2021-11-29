@@ -18,7 +18,7 @@
               <div class="card shadow-sm">
 
                 <a href="{{ url_for('book.book_indetail', book_id=book.id) }}" class="btn btn-light my-2">
-                  <img class= 'book_img'src={{book.img}} height="250" width ="100%" alt=""> 
+                  <img class= 'book_img'src="../{{book.img}}"height="250" width ="100%" alt=""> 
                   <title x="50%" y="50%" >책</title>
                   <rect width="100%" height="100%" fill="#55595c"></rect>
                   <p class="card-text"></p>{{book.title}}</p>
@@ -67,7 +67,7 @@
       <!-- 이전페이지 -->
       {% if book_list.has_prev %}
       <li class="page-item">
-        <a class="page-link" href="?page={{ book_list.prev_num }}">이전</a>
+          <a class="page-link" data-page="{{ book_list.prev_num }}" ">이전</a>
       </li>
       {% else %}
       <li class="page-item disabled">
@@ -78,7 +78,7 @@
           {% if page_num %}
               {% if page_num != book_list.page %}
               <li class="page-item">
-                <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                  <a class="page-link" href="#" data-page="{{ page_num }}">{{ page_num }}</a>
               </li>
               {% else %}
               <li class="page-item active" aria-current="page">
@@ -94,7 +94,7 @@
       <!-- 다음페이지 -->
       {% if book_list.has_next %}
       <li class="page-item">
-        <a class="page-link" href="?page={{ book_list.next_num }}">다음</a>
+          <a class="page-link" href="#" data-page="{{ book_list.next_num }}">다음</a>
       </li>
       {% else %}
       <li class="page-item disabled">
@@ -103,6 +103,7 @@
       {% endif %}
   </ul>
   <!-- 페이징처리 끝 -->
+
   <footer class="text-muted py-5">
     <div class="container">
       <p class="float-end mb-1">
@@ -110,21 +111,6 @@
       </p>
     </div>
   </footer>
-{% endblock %}
-{% block script %}
-<script type='text/javascript'>
-$(document).ready(function(){
-    $(".page-link").on('click', function() {
-        $("#page").val($(this).data("page"));
-        $("#searchForm").submit();
-    });
-    $("#btn_search").on('click', function() {
-        $("#kw").val($(".kw").val());
-        $("#page").val(1);  // 검색사 1페이지부터 조회
-        $("#searchForm").submit();
-    });
-});
-</script>
-{% endblock %}
+  {% endblock %}
 
     
