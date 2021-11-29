@@ -98,9 +98,10 @@
 (3) 주요 사용 기술
 - Flask
 - SQLAlchemy
-- HTML + Falsk Jinja2
+- HTML
+- Jinja2
 - Bootstrap
-- pymysql
+- JQuery
 
 (4) 주요 버전( requirements.txt)
 - Flask==2.0.2
@@ -144,5 +145,14 @@
 - 반납하기
 
 ### 11.27
-- 배포
 - testing
+- 발표
+- 유저에 따른 권한
+
+### 11.28
+- error handler
+- 스크롤 초기화 방지
+
+### 11.29
+- delete 팝업 메시지 추가
+- search 기능 추가
