@@ -70,7 +70,7 @@
     <th>  </th>
   </tr>
 {% for review in review_info.items %}
-<a name='review_redirecting1{{review.id}}'></a> 
+  <a name='review_redirecting1{{review.id}}'></a> 
     <tr>          
       <td>{{ review_info.total - ((review_info.page-1) * review_info.per_page) - loop.index0 }}</td>
       <td> {{review.comment}}</td>
@@ -82,9 +82,7 @@
       </td>
       <td> {{ review.comment_date }}</td>  
     {% if session['user_id'] == review.user_id %}
-    <a name='review_redirecting2{{review.id}}'></a> 
-
-    <td> <a class="btn btn-danger btn-sm" href="{{ url_for('book.del_review', user_id=review.user_id, book_id=review.book_id,review_id=review.id) }}">삭제</a></td>
+    <td> <a class="delete btn btn-danger btn-sm" data-uri="{{ url_for('book.del_review',review_id=review.id) }}">삭제</a></td>
     {% endif %}
   </tr>
   {% endfor %}
@@ -186,7 +184,15 @@
       </div>
     </footer>
 {% endblock %}
-
-    
-    
-          
+<!-- 삭제 알림 -->
+{% block script %}
+<script type='text/javascript'>
+$(document).ready(function(){
+    $(".delete").on('click', function() {
+        if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = $(this).data('uri');
+        }
+    });
+});
+</script>
+{% endblock %}
