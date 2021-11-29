@@ -16,5 +16,21 @@ def home():
     return render_template('home.html', book_list=book_list )
 
 
+@bp.route('/list/')
+def _list():
+    page = request.args.get('page', type=int, default=1)
+    kw = request.args.get('kw', type=str, default='')
 
+    # 조회
+    book_list = Book.query.order_by(Book.title.asc())
+    if kw:
+        search = '%%{}%%'.format(kw)
+        sub_query = db.session.query(Book.title, Book.author , Book.description, Book.isbn).filter(
+                    Book.title.ilike(search) |  # 책 제목
+                    Book.author.ilike(search) |  # 저자
+                    Book.description.ilike(search) |  # 설명
+                    Book.isbn.ilike(search) )   #isbn              
+    # 페이징
+    book_list = book_list.paginate(page, per_page=10)
+    return render_template('home.html', book_list=book_list, page=page, kw=kw)
 
