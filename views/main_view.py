@@ -24,7 +24,3 @@ def home():
     book_list = book_list.paginate(page, per_page=8)
 
     return render_template('search_result.html', book_list=book_list, page=page, kw=kw)
-
-
-
-
