@@ -2,8 +2,13 @@ from flask import Flask,redirect
 from db_connect import db
 from flask_migrate import Migrate
 import config
-import os
+from flask_login import LoginManager
 
+from models.models import User
+
+login_manager=LoginManager()
+
+    
 def create_app():
     app = Flask(__name__)
 
@@ -23,7 +28,7 @@ def create_app():
 
     app.secret_key = "secret"
     app.config['SESSION_TYPE'] = 'filesystem'
-    
+ 
     @app.route('/')
     def start():
         return redirect('/home/')
@@ -32,4 +37,12 @@ def create_app():
 
 if __name__ == "__main__":
     app=create_app()
+       
+    login_manager.init_app(app)
+    login_manager.login_view = "auth.signin"
+    login_manager.login_message = u"로그인 후 이용해주시기 바랍니다."
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.filter_by(email=user_id).first()
+    
     app.run('0.0.0.0', 5000, debug=True)

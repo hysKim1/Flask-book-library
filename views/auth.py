@@ -3,8 +3,12 @@ from db_connect import db
 from models.models import User
 from werkzeug.security import check_password_hash,generate_password_hash
 import re
+from app import login_manager
+from flask_login import login_required, login_user, logout_user
+
 
 bp = Blueprint('auth', '__name__', url_prefix='/user')
+
 
 @bp.route('/signin', methods=['GET', 'POST'])
 def signin():
@@ -22,9 +26,7 @@ def signin():
             message, messageType = '비밀번호가 틀렸습니다. 다시 확인해주세요.','danger'
         else:
             if not message:
-                session.clear()
-                session['user_id'] = email
-                session['name'] =user.username
+                login_user(user)
                 flash('로그인 성공!')
                 return redirect('/')
         flash(message=message, category=messageType)
@@ -32,8 +34,9 @@ def signin():
     return render_template('login.html')
 
 @bp.route('/signout')
+@login_required
 def signout():
-    session.clear()
+    logout_user()
     return redirect(url_for('main.home'))
 
 @bp.route('/signup',methods=['GET','POST'])

@@ -39,11 +39,16 @@ class User(db.Model):
     email = db.Column(db.String(100), nullable=False)
     password = db.Column(db.Text(), nullable=False)
 
+    is_authenticated=True
+    is_active=True
+    
     def __init__(self, username, email, password):
         self.username = username
         self.email = email
         self.password = password
 
+    def get_id(self):
+        return self.email
 
 class BookReview(db.Model):
     __tablename__ = 'BookReview'

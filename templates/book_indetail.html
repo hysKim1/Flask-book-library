@@ -81,7 +81,7 @@
           {% endif %} 
       </td>
       <td> {{ review.comment_date }}</td>  
-    {% if session['user_id'] == review.user_id %}
+      {% if current_user.id == review.user_id %}
     <td> <a class="delete btn btn-danger btn-sm" data-uri="{{ url_for('book.del_review',review_id=review.id) }}">삭제</a></td>
     {% endif %}
   </tr>
@@ -138,7 +138,7 @@
 
 
 
-{% if session['user_id'] %}
+{% if current_user.is_authenticated %}
 <div class="comment-wrap">
   <h3>리뷰 작성하기</h3>
     <form method="post" action="{{url_for('book.create_review',book_id=book.id)}}">
@@ -160,7 +160,7 @@
             placeholder="작성바랍니다" required >
           </textarea>        
         <div style="width: 550%">
-          <button class="btn btn-primary" type="submit"  style='background-color: rgb(82, 79, 161);color:white;'>리뷰등록</button>
+          <button class="btn btn-primary" type="submit"  style='background-color: rgb(82, 79, 161)'>리뷰등록</button>
         </div>
       </div>
     </form>
@@ -169,7 +169,7 @@
 {%else%}
         
         <p>리뷰 작성을 위해서 로그인이 하시기 바랍니다</p> 
-        <a href="{{ url_for('auth.signin') }}"  class="btn btn-primary" type="submit">
+        <a href="{{ url_for('auth.signin') }}"  class="btn btn-primary" style='background-color: rgb(82, 79, 161);color:white;' type="submit">
           로그인하기
         </a>
   

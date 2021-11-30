@@ -2,6 +2,7 @@ from flask  import Blueprint, request, session, redirect, url_for, flash,render_
 from db_connect import db
 from models.models import Book,BookReview,BookRental
 from datetime import datetime
+from flask_login import login_required,current_user
 
 bp=Blueprint('book',__name__,url_prefix='/book')
 
@@ -26,27 +27,26 @@ def book_indetail(book_id):
     
 
 @bp.route('/wr_review/<int:book_id>', methods=('POST','GET'))
+@login_required
 def create_review(book_id):
-    if 'user_id' not in session:
-        flash('권한이 없습니다.')
-        return redirect(url_for('main.home'))
-    user_id = session['user_id']
     # 대여자 중 최초 작성자
     if request.method=='POST':
-        if BookReview.query.filter((BookReview.user_id==user_id) & (BookReview.book_id==book_id)).first() is None :         
+        if BookReview.query.filter((BookReview.user_id==current_user.id) &((BookReview.user_id==BookRental.user_id) & (BookReview.book_id==book_id))).first() is None :         
             review_content=request.form.get('content',None)
             review_rating =request.form.get('rating',None)
-            review= BookReview(user_id=user_id , book_id=book_id, star=review_rating, comment=review_content,comment_date=datetime.now())
+            review= BookReview(user_id=current_user.id , book_id=book_id, star=review_rating, comment=review_content,comment_date=datetime.now())
             db.session.add(review)
             db.session.commit()
             flash('리뷰 등록 완료')
             return redirect('{}#review_redirecting1{}'.format(url_for('book.book_indetail', book_id=book_id),review.id))
-        
-    flash('이미 작성하셨습니다.')
-    return redirect(url_for('book.book_indetail',book_id=book_id))
+        elif BookReview.query.filter((BookReview.user_id == current_user.id)&(BookReview.book_id==book_id)).count()>0:
+            flash('이미 작성하셨습니다.')
+    else:
+        return redirect(url_for('book.book_indetail',book_id=book_id))
     
 
 @bp.route('/del_review/<int:review_id>')
+@login_required
 def del_review(review_id):    
     review_info = BookReview.query.filter_by(id=review_id).first()
     book_id=review_info.book_id

@@ -103,12 +103,13 @@
 - Bootstrap
 - JQuery
 
-(4) 주요 버전( requirements.txt)
+(4) 주요 버전( requirements.txt))
 - Flask==2.0.2
 - Flask-Migrate==3.1.0
 - Flask-SQLAlchemy==2.5.1
 - Flask-Migrate==3.1.0
 - PyMySQL==1.0.2
+- flask-login-0.5.0
 
 #### 11.16
 - Gitlab 세팅
@@ -156,3 +157,6 @@
 ### 11.29
 - delete 팝업 메시지 추가
 - search 기능 추가
+
+### 11.30
+- flask-login 모듈로 수정
