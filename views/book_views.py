@@ -31,7 +31,7 @@ def book_indetail(book_id):
 def create_review(book_id):
     # 대여자 중 최초 작성자
     if request.method=='POST':
-        if BookReview.query.filter((BookReview.user_id==current_user.id) &((BookReview.user_id==BookRental.user_id) & (BookReview.book_id==book_id))).first() is None :         
+        if BookReview.query.join(BookRental,BookRental.book_id==BookReview.book_id).filter((BookReview.user_id==current_user.id)  & (BookReview.user_id==BookRental.user_id)).first() == None :         
             review_content=request.form.get('content',None)
             review_rating =request.form.get('rating',None)
             review= BookReview(user_id=current_user.id , book_id=book_id, star=review_rating, comment=review_content,comment_date=datetime.now())
@@ -39,8 +39,9 @@ def create_review(book_id):
             db.session.commit()
             flash('리뷰 등록 완료')
             return redirect('{}#review_redirecting1{}'.format(url_for('book.book_indetail', book_id=book_id),review.id))
-        elif BookReview.query.filter((BookReview.user_id == current_user.id)&(BookReview.book_id==book_id)).count()>0:
+        else:
             flash('이미 작성하셨습니다.')
+        return redirect(url_for('book.book_indetail',book_id=book_id))
     else:
         return redirect(url_for('book.book_indetail',book_id=book_id))
     
