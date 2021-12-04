@@ -8,6 +8,8 @@
     object-fit: contain;
   }
 </style>   
+<h4>반납할 책</h4>
+
       <div class="album py-5 bg-light">     
         <div class="container">
     
@@ -33,14 +35,10 @@
 
                     </div>
                     <p class="card-text row-cols-3">{{rental_info.rental_date.strftime("%Y/%m/%d")}}~
-                      {% if rental_info.is_returned==0 %}
                         현재</p>
                         <div> 
                        <a  href="{{ url_for('rental.book_return',book_id=rental_info.book_id) }}"class="btn btn-light my-2" style='background-color: rgb(82, 79, 161);color:white;'>반납하기</a>
                       </div>
-                       {% else %}
-                      {{rental_info.return_date.strftime("%Y/%m/%d") }}</p>
-                      {% endif %}
                     <div>            
                     </div>
                   </div>
