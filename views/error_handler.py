@@ -1,5 +1,4 @@
 from flask import Flask, Blueprint, render_template
-import werkzeug
 
 #http status
 bp = Blueprint('error_handler', __name__)
