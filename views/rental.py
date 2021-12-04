@@ -1,5 +1,5 @@
 
-from flask  import Blueprint, request, session,render_template, redirect, url_for, flash
+from flask  import Blueprint,render_template, redirect, url_for, flash
 from db_connect import db
 from models.models import Book, BookRental,User
 from datetime import datetime 
