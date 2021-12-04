@@ -29,7 +29,7 @@ def book_rented():
 @login_required
 def book_returned():
     #유저가 반납한 책
-    rental_info = BookRental.query.filter( (BookRental.user_id ==  current_user.id)&(BookRental.is_returned==1)).order_by(BookRental.rental_date.desc()).all()
+    rental_info = BookRental.query.filter( (BookRental.user_id ==  current_user.id)).order_by(BookRental.rental_date.desc()).all()
     if len(rental_info) == 0:
         flash('반납한 기록이 존재하지 않습니다.', 'danger')
         return render_template('return.html')
