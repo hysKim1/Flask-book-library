@@ -14,8 +14,19 @@ def create_app():
 
     app.config.from_object(config) # config 에서 가져온 파일을 사용합니다.
 
+    app.secret_key = "secret"
+    app.config['SESSION_TYPE'] = 'filesystem'
+ 
     db.init_app(app) # SQLAlchemy 객체를 app 객체와 이어줍니다.
     Migrate().init_app(app, db)
+    login_manager.init_app(app)
+    login_manager.login_view = "auth.signin"
+    login_manager.login_message = u"로그인 후 이용해주시기 바랍니다."
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.filter_by(email=user_id).first()
+
     with app.app_context():
         db.create_all()
 
@@ -26,9 +37,6 @@ def create_app():
     app.register_blueprint(rental.bp)
     app.register_blueprint(error_handler.bp)
 
-    app.secret_key = "secret"
-    app.config['SESSION_TYPE'] = 'filesystem'
- 
     @app.route('/')
     def start():
         return redirect('/home/')
@@ -37,12 +45,4 @@ def create_app():
 
 if __name__ == "__main__":
     app=create_app()
-       
-    login_manager.init_app(app)
-    login_manager.login_view = "auth.signin"
-    login_manager.login_message = u"로그인 후 이용해주시기 바랍니다."
-    @login_manager.user_loader
-    def load_user(user_id):
-        return User.query.filter_by(email=user_id).first()
-    
     app.run('0.0.0.0', 5000, debug=True)
